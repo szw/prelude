@@ -7,6 +7,7 @@
 (setq prelude-auto-save nil)
 (setq ido-everywhere t)
 (ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-and-C-p-only)
 (global-set-key (kbd "C-*") 'iedit-mode)
 
 (defun comment-or-uncomment-lines ()
