@@ -1,3 +1,7 @@
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(set-scroll-bar-mode nil)
+
 (setq guru-warn-only nil)
 (setq prelude-use-smooth-scrolling t)
 
