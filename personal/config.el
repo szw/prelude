@@ -14,7 +14,7 @@
   (interactive)
   (let (beg end)
     (if (region-active-p)
-      (setq beg (region-beginning) end (region-end))
+        (setq beg (region-beginning) end (region-end))
       (setq beg (line-beginning-position) end (line-end-position)))
     (comment-or-uncomment-region beg end)))
 (global-set-key (kbd "s-;") 'comment-or-uncomment-lines)
