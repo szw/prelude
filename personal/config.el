@@ -1,17 +1,13 @@
-(set-scroll-bar-mode nil)
 (setq guru-warn-only nil)
-
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-
 (setq prelude-use-smooth-scrolling t)
 
-(tool-bar-mode 0)
-(menu-bar-mode 0)
+(prelude-require-packages '(ido-vertical-mode ido-ubiquitous cql-mode iedit))
+
 (setq whitespace-line-column 120)
 (setq prelude-auto-save nil)
-;; (setq ido-enable-flex-matching t)
-;; (setq ido-everywhere t)
-;; (ido-mode 1)
+(setq ido-everywhere t)
+(ido-vertical-mode 1)
+(global-set-key (kbd "C-*") 'iedit-mode)
 
 (defun comment-or-uncomment-lines ()
   "Comments or uncomments the region or the current line if there's no active region."
