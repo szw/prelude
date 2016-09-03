@@ -39,8 +39,5 @@
       (toggle-frame-fullscreen)))
 (advice-add 'delete-frame :before #'demaximize-frame)
 
-;; Use Ensime and Enjime for Java (instead of Eclim)
 (require 'ensime)
 (setq exec-path (append exec-path '("/usr/local/bin")))
-(add-hook 'java-mode-hook 'scala/configure-ensime)
-(add-hook 'java-mode-hook 'scala/maybe-start-ensime)
