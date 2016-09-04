@@ -5,14 +5,16 @@
 (setq guru-warn-only nil)
 (setq prelude-use-smooth-scrolling t)
 
-(prelude-require-packages '(ido-vertical-mode ido-ubiquitous cql-mode iedit))
+(prelude-require-packages '(ido-vertical-mode ido-ubiquitous cql-mode iedit ag))
 
 (setq whitespace-line-column 120)
 (setq prelude-auto-save nil)
 (setq ido-everywhere t)
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+
 (global-set-key (kbd "C-*") 'iedit-mode)
+(global-set-key (kbd "s-b") 'crux-switch-to-previous-buffer)
 
 (defun comment-or-uncomment-lines ()
   "Comments or uncomments the region or the current line if there's no active region."
