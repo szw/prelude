@@ -1,11 +1,16 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
-(set-scroll-bar-mode nil)
 
 (setq guru-warn-only nil)
 (setq prelude-use-smooth-scrolling t)
+(setq diff-hl-side 'right)
 
-(prelude-require-packages '(ido-vertical-mode ido-ubiquitous cql-mode iedit ag))
+(prelude-require-packages '(ido-vertical-mode
+                            ido-ubiquitous
+                            cql-mode
+                            iedit
+                            ag
+                            golden-ratio))
 
 (setq whitespace-line-column 120)
 (setq prelude-auto-save nil)
@@ -15,6 +20,13 @@
 
 (global-set-key (kbd "C-*") 'iedit-mode)
 (global-set-key (kbd "s-b") 'crux-switch-to-previous-buffer)
+
+(add-hook 'golden-ratio-mode-hook
+          (lambda ()
+            (if golden-ratio-mode
+                (golden-ratio)
+              (balance-windows))))
+(global-set-key (kbd "s-\\") 'golden-ratio-mode)
 
 (defun comment-or-uncomment-lines ()
   "Comments or uncomments the region or the current line if there's no active region."
@@ -43,3 +55,4 @@
 
 (require 'ensime)
 (setq exec-path (append exec-path '("/usr/local/bin")))
+(setq ensime-auto-connect 'always)
