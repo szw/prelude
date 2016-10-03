@@ -28,32 +28,43 @@
               (balance-windows))))
 (global-set-key (kbd "s-\\") 'golden-ratio-mode)
 
-(defun comment-or-uncomment-lines ()
-  "Comments or uncomments the region or the current line if there's no active region."
-  (interactive)
-  (let (beg end)
-    (if (region-active-p)
-        (setq beg (region-beginning) end (region-end))
-      (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
-(global-set-key (kbd "s-;") 'comment-or-uncomment-lines)
-
-;; various settings
 (global-git-commit-mode t)
 (setq create-lockfiles nil)
 (setq dired-use-ls-dired nil)
 (setq ns-pop-up-frames nil)
 
-;; Work around OS X / Emacs 24 fullscreen quit crash.
-(defun demaximize-frame (&rest args)
-  "Unmaximize the current or passed frame if maximized, otherwise do nothing."
-  (if args (select-frame (car args) t))
+;; Scratch buffer settings
+(setq initial-major-mode 'org-mode)
+(setq initial-scratch-message nil)
+
+;; Fix Flyspell language detection (Emacs 25)
+(setenv "LANG" "en_US.UTF-8")
+
+;; Workaround OS Sierra / Emacs 25 fullscreen frame closing crash.
+;; It looks like an issue with timing related (or similar) to this bug:
+;; https://lists.gnu.org/archive/html/bug-gnu-emacs/2016-07/msg00398.html
+(defun demaximize-frame (orig-fun &rest args)
   (if (equal (assoc 'fullscreen (frame-parameters))
              (cons 'fullscreen 'fullboth))
-      (toggle-frame-fullscreen)))
-(advice-add 'delete-frame :before #'demaximize-frame)
+      (progn (toggle-frame-fullscreen)
+             (sleep-for 1)
+             (apply orig-fun args)
+             (modify-frame-parameters nil '((fullscreen . fullboth))))
+    (apply orig-fun args)))
+
+(advice-add 'delete-frame :around #'demaximize-frame)
+
+;; Ensime settings
 
 (require 'ensime)
+
+;; Workaround for https://lists.gnu.org/archive/html/bug-gnu-emacs/2016-09/msg00656.html
+(defun set-mouse-tracking ()
+  (interactive)
+  (set (make-local-variable 'track-mouse) t))
+
+(eval-after-load 'ensime '(define-key ensime-mode-map [mouse-1] 'set-mouse-tracking))
+
 (setq exec-path (append exec-path '("/usr/local/bin")))
 (setq ensime-auto-connect 'always)
 (setq ensime-startup-snapshot-notification nil)
