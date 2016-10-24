@@ -7,3 +7,5 @@
                                 (width . 140)
                                 (height . 40)
                                 ))
+(setq ad-redefinition-action 'accept)
+(setq exec-path-from-shell-check-startup-files nil)
