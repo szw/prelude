@@ -10,6 +10,7 @@
                             cql-mode
                             iedit
                             ag
+                            meghanada
                             golden-ratio))
 
 (setq whitespace-line-column 120)
@@ -17,6 +18,13 @@
 (setq ido-everywhere t)
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+
+(require 'meghanada)
+(add-hook 'java-mode-hook
+          (lambda ()
+            ;; meghanada-mode on
+            (meghanada-mode t)
+            (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
 (global-set-key (kbd "C-*") 'iedit-mode)
 (global-set-key (kbd "s-§") 'crux-switch-to-previous-buffer)
@@ -44,6 +52,10 @@
                 (golden-ratio)
               (balance-windows))))
 (global-set-key (kbd "s-\\") 'golden-ratio-mode)
+
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "s-n") #'company-select-next)
+  (define-key company-active-map (kbd "s-p") #'company-select-previous))
 
 (global-git-commit-mode t)
 (setq create-lockfiles nil)
