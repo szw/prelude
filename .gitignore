@@ -22,5 +22,7 @@ tramp
 /var/pcache
 ensime/
 games/
+anaconda-mode/
+meghanada/
 .emacs.desktop
 .emacs.desktop.lock
