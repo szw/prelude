@@ -1,9 +1,10 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 
-(setq guru-warn-only nil)
+(setq prelude-guru nil)
 (setq prelude-use-smooth-scrolling t)
 (setq diff-hl-side 'right)
+(setq flx-ido-threshhold 1000)
 
 (prelude-require-packages '(ido-vertical-mode
                             ido-ubiquitous
@@ -19,10 +20,19 @@
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
 
+(add-hook 'prelude-mode-hook
+          (lambda ()
+            (define-key prelude-mode-map (kbd "s-p") nil)
+            (define-key prelude-mode-map (kbd "s-g") nil)))
+
+(add-hook 'ido-setup-hook
+          (lambda ()
+            (define-key ido-completion-map (kbd "s-n") 'ido-next-match)
+            (define-key ido-completion-map (kbd "s-p") 'ido-prev-match)))
+
 (require 'meghanada)
 (add-hook 'java-mode-hook
           (lambda ()
-            ;; meghanada-mode on
             (meghanada-mode t)
             (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
@@ -45,6 +55,10 @@
 (global-set-key (kbd "s-z") 'zop-up-to-char)
 (global-set-key (kbd "s-q") 'fill-paragraph)
 (global-set-key (kbd "s-s") 'sp-splice-sexp)
+(global-set-key (kbd "s-n") 'next-line)
+(global-set-key (kbd "s-p") 'previous-line)
+(global-set-key (kbd "s-g") 'keyboard-escape-quit)
+(global-set-key (kbd "C-o") 'crux-smart-open-line)
 
 (add-hook 'golden-ratio-mode-hook
           (lambda ()
@@ -53,9 +67,19 @@
               (balance-windows))))
 (global-set-key (kbd "s-\\") 'golden-ratio-mode)
 
+(defadvice ace-window
+    (after golden-ratio-resize-window)
+  (golden-ratio) nil)
+
 (with-eval-after-load 'company
-  (define-key company-active-map (kbd "s-n") #'company-select-next)
-  (define-key company-active-map (kbd "s-p") #'company-select-previous))
+  (define-key company-active-map (kbd "s-g") #'company-abort)
+  (define-key company-active-map (kbd "s-n") #'company-select-next-or-abort)
+  (define-key company-active-map (kbd "s-p") #'company-select-previous-or-abort))
+
+(with-eval-after-load 'popup
+  (define-key popup-menu-keymap (kbd "s-g") #'keyboard-quit)
+  (define-key popup-menu-keymap (kbd "s-n") #'popup-next)
+  (define-key popup-menu-keymap (kbd "s-p") #'popup-previous))
 
 (global-git-commit-mode t)
 (setq create-lockfiles nil)
