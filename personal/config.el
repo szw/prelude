@@ -119,7 +119,7 @@
 (eval-after-load 'ensime '(define-key ensime-mode-map [mouse-1] 'set-mouse-tracking))
 
 (setq exec-path (append exec-path '("/usr/local/bin")))
-(setq ensime-auto-connect 'always)
+(setq ensime-auto-connect 'never) ;; always, ask, never
 (setq ensime-startup-snapshot-notification nil)
 
 ;; disable semantic highlighting entirely
