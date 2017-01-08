@@ -30,12 +30,6 @@
             (define-key ido-completion-map (kbd "s-n") 'ido-next-match)
             (define-key ido-completion-map (kbd "s-p") 'ido-prev-match)))
 
-(require 'meghanada)
-(add-hook 'java-mode-hook
-          (lambda ()
-            (meghanada-mode t)
-            (add-hook 'before-save-hook 'delete-trailing-whitespace)))
-
 (global-set-key (kbd "C-*") 'iedit-mode)
 (global-set-key (kbd "s-§") 'crux-switch-to-previous-buffer)
 (global-set-key (kbd "s-b") 'backward-word)
@@ -106,6 +100,12 @@
     (apply orig-fun args)))
 
 (advice-add 'delete-frame :around #'demaximize-frame)
+
+(require 'meghanada)
+(add-hook 'java-mode-hook
+          (lambda ()
+            (meghanada-mode t)
+            (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
 ;; Ensime settings
 
