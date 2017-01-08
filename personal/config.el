@@ -4,7 +4,7 @@
 (setq prelude-guru nil)
 (setq prelude-use-smooth-scrolling t)
 (setq diff-hl-side 'right)
-(setq flx-ido-threshhold 1000)
+(setq flx-ido-threshold 1000)
 
 (prelude-require-packages '(ido-vertical-mode
                             ido-ubiquitous
