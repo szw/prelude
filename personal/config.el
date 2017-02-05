@@ -19,11 +19,18 @@
 (setq ido-everywhere t)
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+(setq ido-default-buffer-method 'selected-window)
+(setq ido-default-file-method 'selected-window)
 
 (add-hook 'prelude-mode-hook
           (lambda ()
+            (define-key prelude-mode-map (kbd "C-c C-p") 'projectile-command-map)
             (define-key prelude-mode-map (kbd "s-p") nil)
             (define-key prelude-mode-map (kbd "s-g") nil)))
+
+(add-hook 'cider-mode-hook
+          (lambda ()
+            (define-key cider-mode-map (kbd "C-c C-p") nil)))
 
 (add-hook 'ido-setup-hook
           (lambda ()
@@ -34,6 +41,9 @@
 (global-set-key (kbd "s-§") 'crux-switch-to-previous-buffer)
 (global-set-key (kbd "s-b") 'backward-word)
 (global-set-key (kbd "s-f") 'forward-word)
+(global-set-key (kbd "<C-s-268632066>") 'sp-backward-sexp) ;;C-s-b
+(global-set-key (kbd "<C-s-268632070>") 'sp-forward-sexp) ;;C-s-f
+(global-set-key (kbd "<C-s-268632085>") 'sp-backward-up-sexp) ;;C-s-u
 (global-set-key (kbd "s-a") 'backward-sentence)
 (global-set-key (kbd "s-e") 'forward-sentence)
 (global-set-key (kbd "s-{") 'backward-paragraph)
@@ -124,3 +134,7 @@
 
 ;; disable semantic highlighting entirely
 (setq ensime-sem-high-enabled-p nil)
+
+;; Clojure
+;; Disable pair actions on syntax quoting
+(sp-local-pair 'clojure-mode "`" nil :actions nil)
