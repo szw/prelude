@@ -1,11 +1,10 @@
-(modify-all-frames-parameters '(
-                                (font . "SF Mono-12")
+(modify-all-frames-parameters '((font . "SF Mono-12")
                                 (vertical-scroll-bars . nil)
                                 (horizontal-scroll-bars . nil)
                                 (tool-bar-lines 0)
                                 (menu-bar-lines 0)
                                 (width . 160)
-                                (height . 50)
-                                ))
+                                (height . 50)))
+
 (setq ad-redefinition-action 'accept)
 (setq exec-path-from-shell-check-startup-files nil)
