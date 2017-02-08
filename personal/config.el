@@ -93,6 +93,7 @@
 ;; Scratch buffer settings
 (setq initial-major-mode 'org-mode)
 (setq initial-scratch-message nil)
+(add-hook 'text-mode-hook #'toggle-word-wrap)
 
 ;; Fix Flyspell language detection (Emacs 25)
 (setenv "LANG" "en_US.UTF-8")
