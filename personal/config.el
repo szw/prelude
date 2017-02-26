@@ -14,13 +14,15 @@
                             meghanada
                             golden-ratio))
 
-(setq whitespace-line-column 120)
+(setq prelude-whitespace nil)
 (setq prelude-auto-save nil)
 (setq ido-everywhere t)
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-default-file-method 'selected-window)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (add-hook 'prelude-mode-hook
           (lambda ()
@@ -35,7 +37,12 @@
 (add-hook 'ido-setup-hook
           (lambda ()
             (define-key ido-completion-map (kbd "s-n") 'ido-next-match)
-            (define-key ido-completion-map (kbd "s-p") 'ido-prev-match)))
+            (define-key ido-completion-map (kbd "s-p") 'ido-prev-match)
+            (define-key ido-completion-map (kbd "s-g") 'minibuffer-keyboard-quit)))
+
+(add-hook 'isearch-mode-hook
+          (lambda ()
+            (define-key isearch-mode-map (kbd "s-g") 'isearch-abort)))
 
 (global-set-key (kbd "C-*") 'iedit-mode)
 (global-set-key (kbd "s-§") 'crux-switch-to-previous-buffer)
@@ -61,8 +68,11 @@
 (global-set-key (kbd "s-s") 'sp-splice-sexp)
 (global-set-key (kbd "s-n") 'next-line)
 (global-set-key (kbd "s-p") 'previous-line)
-(global-set-key (kbd "s-g") 'keyboard-escape-quit)
+(global-set-key (kbd "s-g") 'keyboard-quit)
 (global-set-key (kbd "C-o") 'crux-smart-open-line)
+
+(define-key key-translation-map (kbd "C-S-s-f") (kbd "C-M-S-f"))
+(define-key key-translation-map (kbd "C-S-s-b") (kbd "C-M-S-b"))
 
 (add-hook 'golden-ratio-mode-hook
           (lambda ()
@@ -113,10 +123,7 @@
 (advice-add 'delete-frame :around #'demaximize-frame)
 
 (require 'meghanada)
-(add-hook 'java-mode-hook
-          (lambda ()
-            (meghanada-mode t)
-            (add-hook 'before-save-hook 'delete-trailing-whitespace)))
+(add-hook 'java-mode-hook (lambda () (meghanada-mode t)))
 
 ;; Ensime settings
 

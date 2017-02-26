@@ -8,3 +8,7 @@
 
 (setq ad-redefinition-action 'accept)
 (setq exec-path-from-shell-check-startup-files nil)
+
+(set-frame-position (selected-frame)
+                    (/ (- (x-display-pixel-width) (frame-pixel-width)) 2)
+                    (/ (- (x-display-pixel-height) (frame-pixel-height)) 2))
