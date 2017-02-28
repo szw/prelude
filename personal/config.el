@@ -146,3 +146,4 @@
 ;; Clojure
 ;; Disable pair actions on syntax quoting
 (sp-local-pair 'clojure-mode "`" nil :actions nil)
+(sp-local-pair 'cider-repl-mode "`" nil :actions nil)
