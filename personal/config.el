@@ -21,6 +21,7 @@
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-default-file-method 'selected-window)
+(setq aw-scope 'frame)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -115,7 +116,7 @@
   (if (equal (assoc 'fullscreen (frame-parameters))
              (cons 'fullscreen 'fullboth))
       (progn (toggle-frame-fullscreen)
-             (sleep-for 1)
+             (sleep-for 2)
              (apply orig-fun args)
              (modify-frame-parameters nil '((fullscreen . fullboth))))
     (apply orig-fun args)))
