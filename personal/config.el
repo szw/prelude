@@ -9,10 +9,13 @@
 (prelude-require-packages '(ido-vertical-mode
                             ido-ubiquitous
                             cql-mode
-                            iedit
+                            multiple-cursors
+                            phi-search
                             ag
                             meghanada
-                            golden-ratio))
+                            golden-ratio
+                            sql-indent
+                            color-theme-sanityinc-tomorrow))
 
 (setq prelude-whitespace nil)
 (setq prelude-auto-save nil)
@@ -45,7 +48,39 @@
           (lambda ()
             (define-key isearch-mode-map (kbd "s-g") 'isearch-abort)))
 
-(global-set-key (kbd "C-*") 'iedit-mode)
+(require 'phi-search)
+(require 'phi-replace)
+
+(add-hook 'phi-search-hook
+          (lambda ()
+            (define-key phi-search-default-map (kbd "s-g") 'phi-search-abort)))
+
+(require 'multiple-cursors)
+
+(add-hook 'multiple-cursors-mode-hook
+          (lambda ()
+            (define-key mc/keymap (kbd "s-g") 'mc/keyboard-quit)))
+
+(add-hook 'rectangular-region-mode-hook
+          (lambda ()
+            (define-key rectangular-region-mode-map (kbd "s-g") 'rrm/keyboard-quit)))
+
+(add-hook 'hum/hide-unmatched-lines-mode
+          (lambda ()
+            (define-key (kbd "s-g") 'hum/keyboard-quit)))
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "M-*") 'mc/mark-all-words-like-this)
+(global-set-key (kbd "C-*") 'mc/mark-all-like-this-dwim)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-s->") 'mc/unmark-next-like-this)
+(global-set-key (kbd "C-s-<") 'mc/unmark-previous-like-this)
+(global-set-key (kbd "C-M->") 'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-M-<") 'mc/skip-to-previous-like-this)
+(global-set-key (kbd "C-s") 'phi-search)
+(global-set-key (kbd "C-r") 'phi-search-backward)
+(global-set-key (kbd "M-%") 'phi-replace-query)
 (global-set-key (kbd "s-§") 'crux-switch-to-previous-buffer)
 (global-set-key (kbd "s-b") 'backward-word)
 (global-set-key (kbd "s-f") 'forward-word)
@@ -148,3 +183,17 @@
 ;; Disable pair actions on syntax quoting
 (sp-local-pair 'clojure-mode "`" nil :actions nil)
 (sp-local-pair 'cider-repl-mode "`" nil :actions nil)
+
+;; SQL indentation
+(eval-after-load "sql"
+  '(load-library "sql-indent"))
+
+(setq sql-indent-offset 1)
+
+(setq sql-indent-first-column-regexp
+      (concat "\\(^\\s-*" (regexp-opt '("select" "update" "insert" "delete"
+                                        "union" "intersect" "values"
+                                        "from" "where" "into" "group" "having" "order"
+                                        "set" "on"
+                                        "create" "drop" "truncate"
+                                        "--" ")") t) "\\(\\b\\|\\s-*\\)\\)\\|\\(^```$\\)"))

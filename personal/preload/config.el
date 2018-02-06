@@ -1,3 +1,5 @@
+(setq prelude-theme 'sanityinc-tomorrow-night)
+
 (modify-all-frames-parameters '((font . "SF Mono-12")
                                 (vertical-scroll-bars . nil)
                                 (horizontal-scroll-bars . nil)
